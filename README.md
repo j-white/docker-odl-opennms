@@ -2,18 +2,17 @@
 
 Dockerfiles for working with the Opendaylight integration in OpenNMS
 
-## Option 1) Use precompiled binaries
+## Usage
 
 ```sh
-wget -O controller/distribution-karaf.tar.gz http://www.opennms.org/~jesse/odl/distribution-karaf-0.4.0-Beryllium-nms-02262016.tar.gz
-```
-
-Fire it up:
-```sh
+docker-compose build
 docker-compose up
 ```
+## Building from source
 
-## Option 2) Building from source
+The Dockerfiles reference binaries hosted on http://www.opennms.org/~jesse/
+
+These were compiled from:
 
 ### Newts
 
