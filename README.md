@@ -2,17 +2,22 @@
 
 Dockerfiles for working with the Opendaylight integration in OpenNMS
 
-## Usage
+## Getting started
 
 ```sh
 docker-compose build
 docker-compose up
 ```
 
-Wait for OpenNMS to load and trigger an import:
+## Usage
 
+Once the containers are up, you can point Mininet, or any other Openflow enabled switches to your host.
+
+OpenNMS will automatically synchronize with the controller every 5 minutes. If you're impatient, you can manually synchonrize using:
 ```sh
-docker exec -it odl-opennms /bin/bash -c '/opt/opennms/bin/send-event.pl uei.opennms.org/internal/importer/reloadImport -p "url odl://${CONTROLLER_PORT_8181_TCP_ADDR}:${CONTROLLER_PORT_8181_TCP_PORT}/NODES"'
+docker exec -it odl-opennms /bin/bash -c '/opt/opennms/bin/send-event.pl \
+    uei.opennms.org/internal/importer/reloadImport \
+    -p "url odl://${CONTROLLER_PORT_8181_TCP_ADDR}:${CONTROLLER_PORT_8181_TCP_PORT}/NODES"'
 ```
 
 ## Building from source
@@ -32,3 +37,4 @@ Compile ODL Beryllium from source replacing the *tsdr* project with the one avai
 ### OpenNMS
 
 Compile [OpenNMS](https://github.com/OpenNMS/opennms) from source using the `features/odl-integration` branch.
+

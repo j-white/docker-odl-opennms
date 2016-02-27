@@ -4,10 +4,11 @@
 FROM debian:8.3
 MAINTAINER Jesse White <jesse@opennms.org>
 
-# Install required software (170MB)
+# Install required software
+# ODL doesn't require a JDK, but OpenNMS does, so this allows us to reuse the same image
 RUN echo "deb http://httpredir.debian.org/debian jessie-backports main contrib non-free" > /etc/apt/sources.list.d/backports.list && \
     apt-get update && \
-    apt-get install -y openjdk-8-jre-headless wget
+    apt-get install -y openjdk-8-jdk openjdk-8-jre-headless wget
 
 # Download and install ODL
 WORKDIR /opt
@@ -20,7 +21,7 @@ RUN wget -qO distribution-karaf.tar.gz http://www.opennms.org/~jesse/odl/distrib
 # Setup our featuresBoot
 RUN echo '\
 featuresRepositories = mvn:org.apache.karaf.features/standard/3.0.3/xml/features,mvn:org.apache.karaf.features/enterprise/3.0.3/xml/features,mvn:org.ops4j.pax.web/pax-web-features/3.1.4/xml/features,mvn:org.apache.karaf.features/spring/3.0.3/xml/features,mvn:org.opendaylight.integration/features-integration-index/0.4.0-Beryllium/xml/features\n\
-featuresBoot = config,standard,region,package,kar,ssh,management,odl-mdsal-clustering,odl-restconf,odl-l2switch-switch,odl-mdsal-apidocs,odl-dlux-core,odl-l2switch-switch-ui,odl-dlux-yangui,odl-tsdr-newts,odl-tsdr-openflow-statistics-collector\n'\
+featuresBoot = config,standard,region,package,kar,ssh,management,odl-mdsal-clustering,odl-restconf,odl-l2switch-switch,odl-dlux-core,odl-l2switch-switch-ui,odl-dlux-yangui,odl-tsdr-newts,odl-tsdr-openflow-statistics-collector\n'\
 > /opt/opendaylight/etc/org.apache.karaf.features.cfg
 
 # HACK: Fix issue with JMX ACLs
@@ -62,5 +63,5 @@ RUN wget -qO /opt/opendaylight/system/org/apache/sshd/sshd-core/0.12.0/sshd-core
 EXPOSE 162 179 1088 1790 1830 2400 2550 2551 2552 4189 4342 5005 5666 6633 6640 6653 7800 8000 8080 8101 8181 8383 12001
 
 WORKDIR /opt/opendaylight
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/jre
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 CMD ["./bin/karaf", "server"]

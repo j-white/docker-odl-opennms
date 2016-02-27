@@ -4,12 +4,12 @@
 FROM debian:8.3
 MAINTAINER Jesse White <jesse@opennms.org>
 
-# Install required software (170MB)
+# Install required software
 RUN echo "deb http://httpredir.debian.org/debian jessie-backports main contrib non-free" > /etc/apt/sources.list.d/backports.list && \
     apt-get update && \
     apt-get install -y openjdk-8-jdk openjdk-8-jre-headless wget
 
-# Install more software
+# Install OpenNMS essentials
 RUN wget -qO - http://debian.opennms.org/OPENNMS-GPG-KEY | apt-key add - && \
     echo "deb http://debian.opennms.org stable main" > /etc/apt/sources.list.d/opennms.list && \
     apt-get update && \

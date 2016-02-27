@@ -16,11 +16,12 @@ RUN apt-get update && \
     rm /tmp/plugin.deb && \
     curl -L https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64 > /usr/sbin/gosu && \
     chmod +x /usr/sbin/gosu && \
-    apt-get remove -y curl && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
+COPY scripts/add-datasource.sh /add-datasource.sh
 COPY scripts/run.sh /run.sh
+
 
 EXPOSE 3000
 
