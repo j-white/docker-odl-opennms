@@ -1,8 +1,11 @@
 postgres:
+  container_name: odl-postgres
   image: postgres:9.5.1
 cassandra:
+  container_name: odl-cassandra
   image: spotify/cassandra
 opennms:
+  container_name: odl-opennms
   build: opennms
   ports:
    - "18101:8101"
@@ -16,7 +19,16 @@ opennms:
   links:
    - postgres
    - cassandra
+   - controller
+grafana:
+  container_name: odl-grafana
+  build: grafana
+  ports:
+   - "3000:3000"
+  links:
+   - opennms
 controller:
+  container_name: odl-controller
   build: controller
   ports:
    - "28101:8101"

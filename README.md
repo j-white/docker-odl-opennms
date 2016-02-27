@@ -8,6 +8,13 @@ Dockerfiles for working with the Opendaylight integration in OpenNMS
 docker-compose build
 docker-compose up
 ```
+
+Wait for OpenNMS to load and trigger an import:
+
+```sh
+docker exec -it odl-opennms /bin/bash -c '/opt/opennms/bin/send-event.pl uei.opennms.org/internal/importer/reloadImport -p "url odl://${CONTROLLER_PORT_8181_TCP_ADDR}:${CONTROLLER_PORT_8181_TCP_PORT}/NODES"'
+```
+
 ## Building from source
 
 The Dockerfiles reference binaries hosted on http://www.opennms.org/~jesse/
