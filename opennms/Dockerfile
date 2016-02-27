@@ -7,7 +7,7 @@ MAINTAINER Jesse White <jesse@opennms.org>
 # Install required software
 RUN echo "deb http://httpredir.debian.org/debian jessie-backports main contrib non-free" > /etc/apt/sources.list.d/backports.list && \
     apt-get update && \
-    apt-get install -y openjdk-8-jdk openjdk-8-jre-headless wget
+    apt-get install -y openjdk-8-jdk openjdk-8-jre-headless wget vim
 
 # Install OpenNMS essentials
 RUN wget -qO - http://debian.opennms.org/OPENNMS-GPG-KEY | apt-key add - && \
@@ -24,6 +24,7 @@ RUN wget -qO opennms.tar.gz http://www.opennms.org/~jesse/odl/opennms-18.0.0-SNA
     rm opennms.tar.gz
 
 COPY scripts/bootstrap.sh /opt/opennms/bin
+COPY etc /opt/opennms/etc
  
 # Ports
 # 8101 - Karaf SSH

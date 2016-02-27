@@ -16,9 +16,12 @@ sed -i s/.*org\.opennms\.timeseries\.strategy.*/org.opennms.timeseries.strategy=
 # Enable storeByFS
 sed -i s/.*org\.opennms\.rrd\.storeByForeignSource.*/org.opennms.rrd.storeByForeignSource=true/g "${OPENNMS_HOME}/etc/opennms.properties"
 
-# Point Newts to the linked container
+# Use the linked Cassandra container
 sed -i s/.*org.opennms.newts.config.hostname.*/org.opennms.newts.config.hostname=${CASSANDRA_PORT_9042_TCP_ADDR}/g "${OPENNMS_HOME}/etc/opennms.properties"
 sed -i s/.*org.opennms.newts.config.port.*/org.opennms.newts.config.port=${CASSANDRA_PORT_9042_TCP_PORT}/g "${OPENNMS_HOME}/etc/opennms.properties"
+
+# Use the linked Controller container
+sed -i "s|odl.*NODES|odl://${CONTROLLER_PORT_8181_TCP_ADDR}:${CONTROLLER_PORT_8181_TCP_PORT}/NODES|g" "${OPENNMS_HOME}/etc/provisiond-configuration.xml"
 
 # Start OpenNMS
 ${OPENNMS_HOME}/bin/runjava -s

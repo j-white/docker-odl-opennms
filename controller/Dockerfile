@@ -8,7 +8,7 @@ MAINTAINER Jesse White <jesse@opennms.org>
 # ODL doesn't require a JDK, but OpenNMS does, so this allows us to reuse the same image
 RUN echo "deb http://httpredir.debian.org/debian jessie-backports main contrib non-free" > /etc/apt/sources.list.d/backports.list && \
     apt-get update && \
-    apt-get install -y openjdk-8-jdk openjdk-8-jre-headless wget
+    apt-get install -y openjdk-8-jdk openjdk-8-jre-headless wget vim
 
 # Download and install ODL
 WORKDIR /opt
@@ -64,4 +64,4 @@ EXPOSE 162 179 1088 1790 1830 2400 2550 2551 2552 4189 4342 5005 5666 6633 6640 
 
 WORKDIR /opt/opendaylight
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-CMD ["./bin/karaf", "server"]
+CMD ["./bin/karaf","clean","server"]

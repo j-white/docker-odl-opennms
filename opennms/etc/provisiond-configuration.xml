@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<provisiond-configuration
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.opennms.org/xsd/config/provisiond-configuration"
+
+  foreign-source-dir="/opt/opennms/etc/foreign-sources"
+  requistion-dir="/opt/opennms/etc/imports"
+
+  importThreads="8" scanThreads="10" rescanThreads="10" writeThreads="8" >
+
+  <requisition-def import-name="NODES" import-url-resource="odl://localhost:8181/NODES">
+      <cron-schedule>0 0/5 * * * ?</cron-schedule>
+  </requisition-def>
+
+</provisiond-configuration>
