@@ -2,10 +2,24 @@ postgres:
   image: postgres:9.5.1
 cassandra:
   image: spotify/cassandra
+opennms:
+  build: opennms
+  ports:
+   - "18101:8101"
+   - "8980:8980"
+  # Work around for too many files issue when running the Liquibase migrations
+  privileged: true
+  ulimits:
+    nofile:
+      soft: 40000
+      hard: 80000
+  links:
+   - postgres
+   - cassandra
 controller:
   build: controller
   ports:
-   - "8101:8101"
+   - "28101:8101"
    - "8181:8181"
    - "6633:6633"
   links:
