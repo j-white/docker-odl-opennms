@@ -14,27 +14,18 @@ RUN echo "deb http://httpredir.debian.org/debian jessie-backports main contrib n
 WORKDIR /opt
 RUN mkdir opendaylight
 
-RUN wget -qO distribution-karaf.tar.gz http://www.opennms.org/~jesse/odl/distribution-karaf-0.4.0-Beryllium-nms-02262016.tar.gz && \
+RUN wget -qO distribution-karaf.tar.gz http://www.opennms.org/~jesse/odl/distribution-karaf-0.4.0-Beryllium-nms-02292016.tar.gz && \
     tar -xf distribution-karaf.tar.gz -C opendaylight --strip-components=1 && \
     rm distribution-karaf.tar.gz
 
-# Setup our featuresBoot
-RUN echo '\
-featuresRepositories = mvn:org.apache.karaf.features/standard/3.0.3/xml/features,mvn:org.apache.karaf.features/enterprise/3.0.3/xml/features,mvn:org.ops4j.pax.web/pax-web-features/3.1.4/xml/features,mvn:org.apache.karaf.features/spring/3.0.3/xml/features,mvn:org.opendaylight.integration/features-integration-index/0.4.0-Beryllium/xml/features\n\
-featuresBoot = config,standard,region,package,kar,ssh,management,odl-mdsal-clustering,odl-restconf,odl-l2switch-switch,odl-dlux-core,odl-l2switch-switch-ui,odl-dlux-yangui,odl-tsdr-newts,odl-tsdr-openflow-statistics-collector\n'\
-> /opt/opendaylight/etc/org.apache.karaf.features.cfg
-
 # HACK: Fix issue with JMX ACLs
-RUN rm -f /opt/opendaylight/etc/jmx.acl.* && echo '\
-list* = *\n\
-get* = *\n\
-is* = *\n\
-set* = *\n\
-* = *\n'\
-> /opt/opendaylight/etc/jmx.acl.cfg
+RUN rm -f /opt/opendaylight/etc/jmx.acl.*
 
 # Fix bug related to terminal capabilities negotiation
 RUN wget -qO /opt/opendaylight/system/org/apache/sshd/sshd-core/0.12.0/sshd-core-0.12.0.jar http://search.maven.org/remotecontent?filepath=org/apache/sshd/sshd-core/0.14.0/sshd-core-0.14.0.jar
+
+COPY scripts/bootstrap.sh /opt/opendaylight/bin
+COPY etc /opt/opendaylight/etc
 
 # Ports
 # 162 - SNMP4SDN (only when started as root)
@@ -64,4 +55,4 @@ EXPOSE 162 179 1088 1790 1830 2400 2550 2551 2552 4189 4342 5005 5666 6633 6640 
 
 WORKDIR /opt/opendaylight
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-CMD ["./bin/karaf","clean","server"]
+CMD ["/opt/opendaylight/bin/bootstrap.sh"]
