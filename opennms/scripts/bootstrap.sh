@@ -26,7 +26,11 @@ sed -i "s|odl.*NODES|odl://${CONTROLLER_PORT_8181_TCP_ADDR}:${CONTROLLER_PORT_81
 sed -i s/ODL_CONTROLLER_HOST/${CONTROLLER_PORT_8181_TCP_ADDR}/g "${OPENNMS_HOME}/etc/poller-configuration.xml"
 sed -i s/ODL_CONTROLLER_PORT/${CONTROLLER_PORT_8181_TCP_PORT}/g "${OPENNMS_HOME}/etc/poller-configuration.xml"
 
+sed -i s/AMQP_HOST/${QPID_PORT_5672_TCP_ADDR}/g "${OPENNMS_HOME}/etc/org.opennms.features.amqp.eventreceiver.cfg"
+sed -i s/AMQP_PORT/${QPID_PORT_5672_TCP_PORT}/g "${OPENNMS_HOME}/etc/org.opennms.features.amqp.eventreceiver.cfg"
+
 # Start OpenNMS
+rm -rf ${OPENNMS_HOME}/data
 ${OPENNMS_HOME}/bin/runjava -s
 ${OPENNMS_HOME}/bin/install -dis
 ${OPENNMS_HOME}/bin/newts init

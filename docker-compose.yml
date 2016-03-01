@@ -4,6 +4,11 @@ postgres:
 cassandra:
   container_name: odl-cassandra
   image: spotify/cassandra
+qpid:
+  container_name: odl-qpid
+  build: qpid
+  ports:
+   - "5672:5672"
 opennms:
   container_name: odl-opennms
   build: opennms
@@ -20,6 +25,7 @@ opennms:
    - postgres
    - cassandra
    - controller
+   - qpid
 grafana:
   container_name: odl-grafana
   build: grafana
@@ -36,3 +42,4 @@ controller:
    - "6633:6633"
   links:
    - cassandra
+   - qpid
