@@ -23,6 +23,9 @@ sed -i s/.*org.opennms.newts.config.port.*/org.opennms.newts.config.port=${CASSA
 # Use the linked Controller container
 sed -i "s|odl.*NODES|odl://${CONTROLLER_PORT_8181_TCP_ADDR}:${CONTROLLER_PORT_8181_TCP_PORT}/NODES|g" "${OPENNMS_HOME}/etc/provisiond-configuration.xml"
 
+sed -i s/ODL_CONTROLLER_HOST/${CONTROLLER_PORT_8181_TCP_ADDR}/g "${OPENNMS_HOME}/etc/poller-configuration.xml"
+sed -i s/ODL_CONTROLLER_PORT/${CONTROLLER_PORT_8181_TCP_PORT}/g "${OPENNMS_HOME}/etc/poller-configuration.xml"
+
 # Start OpenNMS
 ${OPENNMS_HOME}/bin/runjava -s
 ${OPENNMS_HOME}/bin/install -dis

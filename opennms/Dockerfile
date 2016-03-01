@@ -19,7 +19,7 @@ RUN wget -qO - http://debian.opennms.org/OPENNMS-GPG-KEY | apt-key add - && \
 WORKDIR /opt
 RUN mkdir opennms
 
-RUN wget -qO opennms.tar.gz http://www.opennms.org/~jesse/odl/opennms-18.0.0-SNAPSHOT-odl-02262016.tar.gz && \
+RUN wget -qO opennms.tar.gz http://www.opennms.org/~jesse/odl/opennms-18.0.0-SNAPSHOT-odl-02292016.tar.gz && \
     tar -xf opennms.tar.gz -C opennms && \
     rm opennms.tar.gz
 
